@@ -15,8 +15,7 @@ router.get('/', function(req, res, next) {
   client.getLanguagesForTranslate(function (err, languageCodes) {
     var params = {locale: 'en', languageCodes: languageCodes};
     client.getLanguageNames(params, function (err, data) {
-      console.log(data)
-      res.render('signup', { title: 'Azure Compute Give - Nameplates', languages: data});
+      res.render('signup', { title: 'Azure Compute Give - Nameplates', languages: data, languageCodes: languageCodes});
     });
   });
   
@@ -24,20 +23,27 @@ router.get('/', function(req, res, next) {
 
 router.post('/register', function(req, res, next) {
     // An object of options to indicate where to post to
+    var translatedLanguages = []
+    var langList = req.body.languageList;
+    var promises = langList.map(function (lang) {
       var params = {
         text: req.body.name,
         from: 'en',
-        to: 'hi'
+        to: lang
       };
-
-      console.log(req.body)
       // Don't worry about access token, it will be auto-generated if needed. 
-      client.translate(params, function(err, data) {
-        console.log(params)
-        console.log(data);
-        
+      return new Promise(function(resolve, reject) {
+          client.translate(params, function(err, data) {
+            translatedLanguages.push(data)  
+            resolve("Success!");
+        });
+        return;
       });
-    res.render('thanks', {name: data});
+    });
+    Promise.all(promises).then(function () {
+      res.render('thanks', {name: req.body.name, languageList: translatedLanguages});
+      //do something with the finalized list of albums here
+    });
 });
 
 module.exports = router;

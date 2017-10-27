@@ -20,9 +20,8 @@ html
                     label(for='alias') Alias:
                     input#alias.form-control(placeholder='angalavi' alias='alias')
                 div.form-group
-                    ul(style='list-style-type:none')
-                        each val in languages
-                            li= val 
-                            input(type='checkbox' name=val)
-
+                    each val, index in languages
+                        div.checkbox
+                            input.checkbox-input(type='checkbox', name='languageList', value=languageCodes[index] id=`language`)
+                            label(for='languageList')=val
                 button.btn.btn-primary(type='submit') Submit
