@@ -1,6 +1,5 @@
 'use strict'
 var express = require('express');
-var nodeSSPI = require('node-sspi')
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -10,14 +9,6 @@ var expressValidator = require('express-validator');
 var index = require('./routes/index');
 var server = require('http').createServer(app);
 var app = express();
-// app.use(function (req, res, next) {
-//   var nodeSSPI = require('node-sspi')
-//   var nodeSSPIObj = new nodeSSPI({
-//     retrieveGroups: true
-//   })
-//   nodeSSPIObj.authenticate(req, res, function(err){
-//     res.finished || next()
-//   })
   
 // });
 // view engine setup
