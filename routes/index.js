@@ -3,9 +3,17 @@ var router = express.Router();
 var request = require('request');
 var nodemailer = require('nodemailer');
 var MsTranslator = require('mstranslator');
+var azure = require('azure-storage');
 // Second parameter to constructor (true) indicates that 
 // the token should be auto-generated. 
- 
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'andres.galaviz@gmail.com',
+    pass: '.Tnomfcib0!'
+  }
+});
+
 var client = new MsTranslator({
   api_key: "5e4afa9bf72c40508cb4fbee3b47f824"
 }, true);
@@ -43,6 +51,20 @@ router.post('/register', function(req, res, next) {
     });
     Promise.all(promises).then(function () {
       console.log(req.body.name, langList, alias)
+      var mailOptions = {
+        from: 'andres.galaviz@gmail.com',
+        to: 'angalavi@microsoft.com',
+        subject: 'alias',
+        text: req.body.name + ";" + langList + ";" + alias
+      };
+      
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
       res.render('thanks', {name: req.body.name, languageList: translatedLanguages});
       //do something with the finalized list of albums here
     });
