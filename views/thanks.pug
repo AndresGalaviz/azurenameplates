@@ -11,12 +11,10 @@ html
     .main.container
         .row
         .col-md-6.col-md-offset-3
-            h3 #{title} Signup</center>
-            form(method='POST' action='/register')
-                div.form-group
-                    label(for='name') First Name:
-                    input#alias.form-control(placeholder='Andres' name='alias')
-                div.form-group
-                    label(for='alias') Alias:
-                    input#alias.form-control(placeholder='angalavi' name='alias')
-                button.btn.btn-primary(type='submit') Submit
+            h3 Thanks!
+            button.btn.btn-primary(onclick="move()") Go Back
+
+script.
+  function move() {
+    window.location.href = '/'
+  }

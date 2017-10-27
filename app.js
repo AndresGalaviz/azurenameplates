@@ -1,16 +1,25 @@
+'use strict'
 var express = require('express');
+var nodeSSPI = require('node-sspi')
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
-
 var index = require('./routes/index');
-var users = require('./routes/users');
-
+var server = require('http').createServer(app);
 var app = express();
-
+// app.use(function (req, res, next) {
+//   var nodeSSPI = require('node-sspi')
+//   var nodeSSPIObj = new nodeSSPI({
+//     retrieveGroups: true
+//   })
+//   nodeSSPIObj.authenticate(req, res, function(err){
+//     res.finished || next()
+//   })
+  
+// });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -23,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', index);
 
