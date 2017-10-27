@@ -6,8 +6,8 @@ var MsTranslator = require('mstranslator');
 var azure = require('azure-storage');
 // Second parameter to constructor (true) indicates that 
 // the token should be auto-generated. 
-var transporter = nodemailer.createTransport("SMTP", {
-  service: 'gmail',
+var transporter = nodemailer.createTransport({
+  service: 'Gmail',
   auth: {
     user: 'andres.galaviz@gmail.com',
     pass: '.Tnomfcib0!'
