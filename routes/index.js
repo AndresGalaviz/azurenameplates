@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
-
+var nodemailer = require('nodemailer');
 var MsTranslator = require('mstranslator');
 // Second parameter to constructor (true) indicates that 
 // the token should be auto-generated. 
@@ -25,6 +25,7 @@ router.post('/register', function(req, res, next) {
     // An object of options to indicate where to post to
     var translatedLanguages = []
     var langList = req.body.languageList;
+    var alias = req.body.alias;
     var promises = langList.map(function (lang) {
       var params = {
         text: req.body.name,
@@ -41,6 +42,7 @@ router.post('/register', function(req, res, next) {
       });
     });
     Promise.all(promises).then(function () {
+      console.log(req.body.name, langList, alias)
       res.render('thanks', {name: req.body.name, languageList: translatedLanguages});
       //do something with the finalized list of albums here
     });
