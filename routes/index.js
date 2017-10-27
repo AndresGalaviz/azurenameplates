@@ -12,24 +12,32 @@ var client = new MsTranslator({
  
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('signup', { title: 'Azure Compute Give - Nameplates' });
+  client.getLanguagesForTranslate(function (err, languageCodes) {
+    var params = {locale: 'en', languageCodes: languageCodes};
+    client.getLanguageNames(params, function (err, data) {
+      console.log(data)
+      res.render('signup', { title: 'Azure Compute Give - Nameplates', languages: data});
+    });
+  });
+  
 });
 
 router.post('/register', function(req, res, next) {
     // An object of options to indicate where to post to
-    var params = {
-      text: req.body.name,
-      from: 'en',
-      to: 'hi'
-    };
-    console.log(req.body)
-    // Don't worry about access token, it will be auto-generated if needed. 
-    client.translate(params, function(err, data) {
-      console.log(params)
-      console.log(data);
-      res.render('thanks', {name: data});
-    });
+      var params = {
+        text: req.body.name,
+        from: 'en',
+        to: 'hi'
+      };
 
+      console.log(req.body)
+      // Don't worry about access token, it will be auto-generated if needed. 
+      client.translate(params, function(err, data) {
+        console.log(params)
+        console.log(data);
+        
+      });
+    res.render('thanks', {name: data});
 });
 
 module.exports = router;
